@@ -4,7 +4,7 @@ function connect() {
     stompClient.connect({}, function (frame) {
         //console.log('Connected: ' + frame);
         room = document.getElementById("sala").innerHTML;
-        player = document.getElementById("player").innerHTML;        
+        player = document.getElementById("player").innerHTML;
         
         stompClient.subscribe(`/topic/lobby/${room}/player1`, function (name) {
             player1(JSON.parse(JSON.parse(name.body).mensagem));
@@ -22,13 +22,18 @@ function connect() {
     });
 }
 function updateTable(mensagem){
-    console.log("========")
-    console.log(mensagem.tab);
     for(i = 0; i < 3; i ++){
         for(j = 0; j < 3; j ++){
             document.getElementById(`${i}_${j}`).classList.add(imagens[mensagem.tab[i][j]]);
+            matriz[i][j] = mensagem.tab[i][j];
         }
     }
+    imgAtual = mensagem.pl
+    document.getElementById("platual").innerHTML = pl[imgAtual]
+
+    if(mensagem.win === "reset")
+        reset();
+
     checkGanhador();
 }
 
@@ -53,14 +58,17 @@ function iniciar() {
 
 function updateTab() {
     if(player === 'player1'){
-        stompClient.send(`/app/game/${room}/player1`, {}, JSON.stringify({'pl':user, 'tab':matriz}));
+        stompClient.send(`/app/game/${room}/player1`, {}, JSON.stringify({'pl':imgAtual, 'tab':matriz}));
     }else if(player === 'player2'){
-        stompClient.send(`/app/game/${room}/player2`, {}, JSON.stringify({'pl':user, 'tab':matriz}));
+        stompClient.send(`/app/game/${room}/player2`, {}, JSON.stringify({'pl':imgAtual, 'tab':matriz}));
     }
+}
+
+function resetButton(){
+    stompClient.send(`/app/game/${room}/player1`, {}, JSON.stringify({'pl':imgAtual, 'tab':matriz, 'win':'reset'}));
 }
 
 
 setInterval( () => {
     iniciar();
-    updateTab();
-},1000);
+},3000);

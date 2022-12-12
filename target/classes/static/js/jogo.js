@@ -35,6 +35,7 @@ function criarMatriz(){
     }
 }
 
+
 function reset(){
     document.getElementById("tabuleiro").innerHTML = "";
     document.getElementById("ganhador").style.visibility = 'hidden';
@@ -48,15 +49,24 @@ function inserirImg(evento){
         msg("Por favor selecione uma posição vazia!","error")
         return
     }
-    document.getElementById(evento.currentTarget.id).classList.add(imagens[imgAtual]);
+    console.log(player)
+    console.log(pl[imgAtual])
+
+    if(user != pl[imgAtual]){
+        msg("Não e sua vez","error")
+        return
+    }
+        
+    //document.getElementById(evento.currentTarget.id).classList.add(imagens[imgAtual]);
     vetIndices = evento.currentTarget.id.split("_");
     matriz[vetIndices[0]][vetIndices[1]] = imgAtual;
-    (imgAtual >= 1)? imgAtual = 0  : imgAtual ++
-    document.getElementById("platual").innerHTML = pl[imgAtual]
+    (imgAtual >= 1)? imgAtual = 0  : imgAtual ++;
+    updateTab();
 }
 
 function vencedor(player){
     console.log(player)
+    
     if(player == pl[0])
         document.getElementById("pl1_placar").innerHTML = parseInt(document.getElementById("pl1_placar").innerHTML)+1
     if(player == pl[1])
