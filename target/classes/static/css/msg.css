@@ -1,0 +1,16 @@
+.msg{
+    width: 100%;
+    padding: 20px 10px;
+    font-size: 20px;
+    position:fixed;
+    top: 0px;
+}
+
+.success{
+    background-color: rgb(233, 237, 219);
+    border-left: 10px solid rgb(18, 139, 14);
+}
+.error{
+    background-color: rgb(247, 215, 218);
+    border-left: 10px solid rgb(255, 37, 59);
+}

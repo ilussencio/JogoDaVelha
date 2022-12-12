@@ -1,0 +1,76 @@
+@font-face {
+    font-family: Oswald;
+    src: url(fonts/Oswald-VariableFont_wght.ttf);
+}
+
+@font-face {
+    font-family: Nabla;
+    src: url(fonts/Nabla-Regular-VariableFont_EDPT\,EHLT.ttf);
+    
+}
+
+body{
+    margin: 0;
+    font-family: Oswald;
+    background-color: bisque;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1000px;
+}
+
+.box{
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    border: 5px solid black;
+    border-radius: 10px;
+    background-color: white;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+h1 {
+    font-size: 50px;
+    margin-bottom: 50px;
+}
+
+.button {
+    width: 400px;
+	background-color:#a73f2d;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:bold;
+	padding:13px;
+	text-shadow:0px -1px 0px #7a2a1d;
+    margin-bottom: 10px;
+}
+.button:hover {
+	background-color:#b34332;
+}
+.button:active {
+	position:relative;
+	top:1px;
+}
+.input{
+    width: 400px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid black;
+    font-size: 18px;
+}
+.logo{
+    width: 100px;
+    margin-top: 50px;
+}

@@ -15,8 +15,7 @@ import lombok.ToString;
 @ToString
 
 public class Game {
-    private String pl1;
-    private String pl2;
-    private String[] tab = new String[9];
+    private String pl;
+    private int[][] tab;
     private String win;
 }

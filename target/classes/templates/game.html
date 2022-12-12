@@ -1,83 +1,71 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="/js/sockjs.min.js"></script>
-    <script src="/js/stomp.min.js"></script>
-    <title>Game</title>
-    <style>
-        .quadrado{
-            width: 30px;
-            height: 30px;
-            background: gray;
-            margin: 10px;
-        }
-        .green{
-            background: green;
-        }
-        .red{
-            background: red;
-        }
-        #tabuleiro{
-            display: flex;
-            flex-wrap: wrap;
-        }
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../css/jogo.css">
+    <!-- VERIFICA SESSAO -->
+    <script src="../../js/session.js"></script>
 
-    </style>
-    <script>
-        var stompClient = null;
-        var jogador = null;
+    <!-- MENSAGEM DE ALERTA -->
+    <link rel="stylesheet" href="../../css/msg.css">
+    <script src="../../js/msg.js"></script>
 
-        function selectJogador(i){
-            jogador = i;
-        }
-        function connect() {
-            var socket = new SockJS('/gs-guide-websocket');
-            stompClient = Stomp.over(socket);
-            stompClient.connect({}, function (frame) {
-                console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/greetings/sala01', function (greeting) {
-                    showGreeting(JSON.parse(greeting.body).content);
-                });
-            });
-        }
-        function showGreeting(message) {
-            var obj = JSON.parse(message);
-            box = document.getElementById(obj.posicao);
-            if(box.classList.length >= 2){
-                console.log('Posicao ja preenchida!')
-            }
-            else if(obj.jogador != jogador){
-                box.classList.add("red");
-            }
-            else{
-                box.classList.add("green");
-            }
-
-        }
-        function clickBox(evento){
-            stompClient.send(`/app/hello/sala01`, {}, JSON.stringify({'jogador': jogador, 'posicao':evento.currentTarget.id}));
-        }
-        function criarTabuleiro(){
-            for(var i = 0; i <= 30; i ++){
-                var div = document.createElement("div");
-                div.setAttribute("class","quadrado");
-                div.setAttribute("id", `${i}`);
-                div.addEventListener("click",clickBox);
-                document.getElementById('tabuleiro').appendChild(div);
-            }
-        }
-    </script>
+    <script src="../../js/jogo.js"></script>
+    <script src="../../js/sockegame.js"></script>
+    <script src="../../js/sockjs.min.js"></script>
+    <script src="../../js/stomp.min.js"></script>
 </head>
-<body onload="criarTabuleiro();connect();">
-<button onclick="selectJogador(1)">Jogador 1</button>
-<button onclick="selectJogador(2)">Jogador 2</button>
-    <main>
-        <div id="tabuleiro">
+
+<div class="ganhador" id="ganhador" style="visibility:hidden">
+    <h1>Parabéns <label id="ganhador_nome"> </label> você ganhou!</h1>
+    <button class="resetButton" onclick="reset()">Jogar Novamente!</button>
+</div>
+
+<div class="velha" id="velha" style="visibility:hidden">
+    <img src="../../img/bruxa_gif.gif">
+    <h1>Deu Velha!</h1>
+    <button class="resetButton" onclick="reset()">Jogar Novamente!</button>
+</div>
+
+<body onload="criarTabuleiro();setJogador();connect();">
+    
+    <header>
+        <div class="menu">
+            <div class="pl">
+                Jogador 1 : <label id="pl1"></label>
+            </div>
+
+            <div  class="platual">
+                Vez do jogador : <label id="platual"></label>
+            </div>
+
+            <div class="pl">
+                Jogador 2 : <label id="pl2"></label>
+            </div>
         </div>
+    </header>
+    <main>
+        <section class="container">
+            <div class="placar">
+                <span id="pl1_placar"></span>
+                <div id="pl1_nome"></div>
+            </div>
+            <div id="tabuleiro"></div>
+            <div class="placar">
+                <span id="pl2_placar"></span>
+                <div id="pl2_nome"></div>
+            </div>
+        </section>
+        <section>
+            <button ><a href="lobby.html">IR PARA LOBBY</a></button>
+        </section>
+        <div id="sala" th:text="${sala}" style="display:none;"></div>
+        <div id="player" th:text="${player}" style="display:none;"></div>
+        
     </main>
 </body>
+
 </html>

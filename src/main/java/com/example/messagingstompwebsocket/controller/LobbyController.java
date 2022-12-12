@@ -20,31 +20,25 @@ import com.google.gson.Gson;
 @Controller
 @RequestMapping("/lobby")
 public class LobbyController {
-    @GetMapping("/{lobby}")
-    public String game(@PathVariable String lobby, Model model){
+    @GetMapping("/{lobby}/{player}")
+    public String game(@PathVariable String lobby, @PathVariable String player, Model model){
         model.addAttribute("sala", lobby);
+        model.addAttribute("player", player);
         return "lobby";
     }
 
-    @MessageMapping("/lobby/{id}/game")
-    @SendTo("/topic/lobby/{id}/game")
-    public Mensagem lobby(Game game) throws Exception {
-        System.out.println(game);
-        return new Mensagem(new Gson().toJson(game));
+    @MessageMapping("/lobby/{id}/player1")
+    @SendTo("/topic/lobby/{id}/player1")
+    public Mensagem pl1(String name) throws Exception {
+        Thread.currentThread().sleep(1000);
+        return new Mensagem(new Gson().toJson(name));
     }
 
-    @MessageMapping("/lobby/{id}/state")
-    @SendTo("/topic/lobby/{id}/state")
-    public Mensagem state() throws Exception {
-        Game game = new Game();
-        game.setPl1("PL01");
-        return new Mensagem(new Gson().toJson(game));
+    
+    @MessageMapping("/lobby/{id}/player2")
+    @SendTo("/topic/lobby/{id}/player2")
+    public Mensagem pl2(String name) throws Exception {
+        Thread.currentThread().sleep(1000);
+        return new Mensagem(new Gson().toJson(name));
     }
-
-    @OnOpen
-    public void open(final Session session) {
-        System.out.println("-> "+ session);
-    }
-
-
 }

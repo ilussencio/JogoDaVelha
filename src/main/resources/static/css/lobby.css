@@ -1,0 +1,26 @@
+form{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: space-between;
+}
+form input {
+    width: 200px !important;
+    text-align: center;
+}
+.player{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.button{
+    width: 400px;
+    margin-bottom: 50px;
+}
+.box{
+    gap: 50px
+}
+.token{
+    color: blue !important;
+}

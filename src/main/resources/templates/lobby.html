@@ -1,26 +1,54 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- VERIFICA SESSAO -->
+    <script src="../../js/session.js"></script>
+
+    <link rel="stylesheet" href="../../css/login.css">
+
+    <link rel="stylesheet" href="../../css/lobby.css">
+    <script src="../../js/lobby.js"></script>
+    <script src="../../js/sockjs.min.js"></script>
+    <script src="../../js/stomp.min.js"></script>
+
+    <!-- MENSAGEM DE ALERTA -->
+    <link rel="stylesheet" href="../../css/msg.css">
+    <script src="../../js/msg.js">Link</script>
+
     <title>Document</title>
-
-    
 </head>
-<body onload="init()">
-    <div>
-        <h1 id="sala" th:text="${sala}"></h1>
-    </div>
+<body onload="connect();">
+    <main>
+        <div class="container">
+            <div class="box boxLobby">
+                <img class="logo" src="../../img/icone.png">
 
-    <p id="jogador1">Aguardando entrada ...</p>
-    <p id="jogador2">Aguardando entrada ...</p>
+                <h1>Jogadores</h1>
+                
+                <form>
+                    <div class="player">
+                        <label> Jogador 1</label>
+                        <input class="input" id="player1" type="text" disabled>
+                    </div>
+                    
+                    <label> X </label>
 
-    <button onclick="teste()">BUTTON TESTE</button>
+                    <div class="player">
+                        <label> Jogador 2</label>
+                        <input class="input" id="player2" type="text" disabled>
+                    </div>
+                </form>
 
-    <script src="/js/script.js"></script>
-    <script src="/js/sockjs.min.js"></script>
-    <script src="/js/stomp.min.js"></script>
+                <a href="" id="token" class="token"></a>
+
+                <button class="button" onclick="jogar()">Jogar</button>
+            </div>
+            <div id="sala" th:text="${sala}" style="display:none;"></div>
+            <div id="player" th:text="${player}" style="display:none;"></div>
+        </div>
+    </main>
 </body>
 </html>
