@@ -1,26 +1,48 @@
 var stompClient = null;
-var nome = window.localStorage.getItem("nome");
-var mesa = [
-];
+var player = ""
+var room = ""
+
+game = {
+    'pl1':'null',
+    'pl2':'null',
+    'tab':[],
+    'win':'null'
+}
+function init(){
+    room = document.getElementById("sala").innerHTML;
+    connect();
+}
 
 function connect() {
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings/sala01', function (greeting) {
-            lobby(JSON.parse(greeting.body).content);
+        stompClient.subscribe(`/topic/lobby/${room}/game`, function (game) {
+            lobby(JSON.parse(game.body).content);
         });
+
+        stompClient.subscribe(`/topic/lobby/${room}/state`, function (game) {
+            lobby(JSON.parse(game.body).content);
+            update()
+        });
+
     });
 }
-function lobby(mensagem){
-    console.log(mesa);
+function update(){
+    stompClient.send(`/app/lobby/${room}/game`, {}, JSON.stringify(game));
 }
-function send(){
-    mesa.jogador = nome;
-    stompClient.send(`/app/hello/sala01`, {}, JSON.stringify({'jogador': mesa}));
+function state(mensagem){
+    console.log("state -> "+mensagem);
 }
 
-async function init(){
-    await connect();
+function lobby(mensagem){
+    console.log("-> "+mensagem)
+}
+
+function inicio(){
+    stompClient.send(`/app/lobby/${room}`, {}, JSON.stringify({'pl1':game}));
+}
+function teste(){
+    stompClient.send(`/app/lobby/${room}/state`, {});
 }
