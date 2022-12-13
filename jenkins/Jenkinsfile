@@ -1,0 +1,14 @@
+#!/usr/bin/env groovy
+pipeline{
+    agent none
+    stages {
+        stage('bild'){
+            agent{
+                docker { image 'maven' }
+            }
+            steps {
+                sh "mvn spring-boot:run"
+            }
+        }
+    }
+}
